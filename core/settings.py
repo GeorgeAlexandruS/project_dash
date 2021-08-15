@@ -31,10 +31,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'app',  # Enable the inner app
+    'app',
     'projects',
     'profiles',
-    'workflow'
+    'workflow',
+    'timesheets'
     ]
 
 MIDDLEWARE = [
