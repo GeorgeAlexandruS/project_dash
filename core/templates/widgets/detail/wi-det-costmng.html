@@ -1,0 +1,268 @@
+{% load humanize %} {% load functions %} {% load mathfilters %}
+
+{% block scripts %}
+<script src="/static/assets/js/setting-demo2.js"></script>
+<script>
+
+//https://stackoverflow.com/questions/65809844/create-charts-with-a-loop-in-django-with-charts-js
+
+
+
+
+
+    //Spent to date Chart
+    $(document).ready(function () {
+	var ctx = document.getElementById('budgetChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [ "Budget Spent", "Budget Available" ],
+            datasets: [{
+                label: '',
+                data: [ {{ time_distribution.tot_spent }}, {{ project.design_value_prelims | sub:time_distribution.tot_spent}},],
+        backgroundColor: [
+                 '#3ec556',
+                'rgba(0,0,0,0)',
+
+
+                ],
+                borderColor: [
+                    '#3ec556',
+                    '#8c8c8c'
+                ],
+
+                borderWidth: 1
+            }]
+        },
+        options: {
+			cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+			},
+			legend: {
+				display: false,
+				position: 'right'},
+            title: {
+                display: true,
+                 text: "SPENT: {{ time_distribution.tot_spent | div:project.design_value_prelims | mul:100 | floatformat:1 }}%"
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+
+
+    //Spending Distrubution Chart
+    $(document).ready(function () {
+	var ctx = document.getElementById('spendingDistChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [ "Surveys", "Intenal Design Meeting", "External Design Meeting", "GAs and Details", "Technical Submittals", "Fabrication Drawings", "Amendments", "As Builts" ],
+            datasets: [{
+                label: 'time score',
+                data: [ {{ time_distribution.tot_survey_time|default_if_none:0 }},{{ time_distribution.tot_int_meet_time|default_if_none:0 }},{{ time_distribution.tot_ext_meet_time|default_if_none:0 }},{{ time_distribution.tot_ts_time|default_if_none:0 }},
+	{{ time_distribution.tot_ga_time|default_if_none:0 }},{{ time_distribution.tot_fab_time|default_if_none:0 }},{{ time_distribution.tot_amendments_time|default_if_none:0 }},{{ time_distribution.tot_ab_time|default_if_none:0 }},],
+        backgroundColor: [
+                 'rgba(40, 167, 69, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+				'rgba(109, 157, 247, 1)',
+				'rgba(242, 61, 236, 1)',
+
+                ],
+                borderColor: [
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+					'rgba(109, 157, 247, 1)',
+                    'rgba(242, 61, 236, 1)',
+
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+			},
+			legend: {
+				display: true,
+				position: 'right'},
+            title: {
+                display: true,
+                 text: "Deadline: {{ phase.ga_first_issue_date }}"
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+</script>
+{% endblock scripts %}
+
+
+
+
+
+<div class="card-header">
+	<div class="card-title text-center">DESIGN COST</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card card-stats card-primary card-round">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-price-tag"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">BUDGET PRELIMS</p>
+										<h4 class="card-title font-weight-bold">&#163;{{ project.design_value_prelims|intcomma }}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card card-stats card-primary card-round">
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-clock"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">SPENT TO DATE</p>
+										<h4 class="card-title font-weight-bold">
+											&#163;{{ time_distribution.tot_spent }}
+										</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Spent To Date</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="budgetChart" style="width: 50%; height: 50%"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card card-stats card-primary card-round">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-tea-cup"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">DAYS SPENT</p>
+
+										<h4 class="card-title font-weight-bold">{{ time_distribution.tot_time_spent | div:8}} Days</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="card card-stats card-primary card-round">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-tea-cup"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">DAYS REMAINING</p>
+
+										<h4 class="card-title font-weight-bold"> {{ project.design_value_prelims | div:project.hourly_rate | sub:time_distribution.tot_time_spent | div:5 }} Days</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Spending Distribution</div>
+						</div>
+						<div class="card-body">
+							<div class="chart-container">
+								<canvas id="spendingDistChart" style="width: 50%; height: 50%"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

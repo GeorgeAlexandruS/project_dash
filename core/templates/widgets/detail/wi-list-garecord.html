@@ -1,0 +1,209 @@
+{% load humanize %}  {% load functions %}
+<div class="col-md-12">
+	<div class="col-md-6">
+		<div class="card-header">
+			<div class="card-title">DRAWING REGISTER</div>
+		</div>
+
+		<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+		{% for document in documents %}
+		{% if document.phase.pk == phase.pk and document.type == 4 %}
+		<div class="border border-light col-md-12">
+			<div class="row ">
+				<div class="col-12 h-50">
+					<div class="card">
+						<div class="d-flex ">
+							<div class="col-md-4 float-left">
+								<span class="stamp stamp-md bg-dark mr-3">
+									{% if document.type == 4 %}
+									<i class="fas fa-pencil-ruler fa-2x"></i>
+									{% elif document.type == 3 %}
+									<i class="fas fa-drafting-compass fa-2x"></i>
+									{% else %}
+									<i class="far fa-file-alt fa-2x"></i>
+									{% endif %}
+								</span>
+								<small class="text-muted">{{ document.get_type_display }}</small>
+							</div>
+							<div class="col-md-5">
+								<h3 class="mb-1"><b> {{ document.number }}</b></h3>
+							</div>
+							<div class="col-md-3  text-right">
+								<button type="button" class="btn btn-primary">Edit</button>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+			{% for submission in document.submissions.all %}
+			<div class="row ">
+				<div class="col-sm-4 col-md-4 ">
+					<div class="card bg-dark h-50">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md bg-dark mr-3">
+
+								<i class="far fa-share-square fa-2x"></i>
+							</span>
+							<div class="float-right">
+								<h5 class="mb-1"><b>ISSUED</b></h5>
+								<small class="text-muted">{{ submission.date }}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{% if submission.comments %}
+				<div class="col-sm-4 col-md-4">
+					<div class="card bg-dark h-50 float-right">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md {% if submission.comments.status == 2 %} bg-danger {% elif submission.comments.status == 1 %} bg-warning {% else %} bg-success {% endif %} mr-3">
+								{{ submission.comments.get_status_display }}
+							</span>
+							<div>
+								<h5 class="mb-1"><b>RETURNED</b></h5>
+								<small class="text-muted">{{ submission.comments.date }}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% else %}
+
+				<div class="col-sm-4 col-md-4">
+					<div class="card bg-dark h-50 float-right">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md bg-light text-danger mr-3 h3">
+								!
+							</span>
+							<div>
+								<h5 class="mb-1"><b>NOT RETURNED</b></h5>
+								<small class="text-muted">Awaiting Status</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{% endif %}
+
+			</div>
+
+			{% endfor %}
+
+		</div>
+		{% endif %}
+		{% endfor %}
+
+	</div>
+	<div class="col-md-6">
+		<div class="card-header">
+			<div class="card-title">TECH SUB REGISTER</div>
+		</div>
+
+		<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+		{% for document in documents %}
+		{% if document.phase.pk == phase.pk and document.type == 3 %}
+		<div class="border border-light col-md-12">
+			<div class="row ">
+				<div class="col-12 h-50">
+					<div class="card">
+						<div class="d-flex ">
+							<div class="col-md-4 float-left">
+								<span class="stamp stamp-md bg-dark mr-3">
+									{% if document.type == 4 %}
+									<i class="fas fa-pencil-ruler fa-2x"></i>
+									{% elif document.type == 3 %}
+									<i class="fas fa-drafting-compass fa-2x"></i>
+									{% else %}
+									<i class="far fa-file-alt fa-2x"></i>
+									{% endif %}
+								</span>
+								<small class="text-muted">{{ document.get_type_display }}</small>
+							</div>
+							<div class="col-md-5">
+								<h3 class="mb-1"><b> {{ document.number }}</b></h3>
+							</div>
+							<div class="col-md-3  text-right">
+								<button type="button" class="btn btn-primary">Edit</button>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+			{% for submission in document.submissions.all %}
+			<div class="row ">
+				<div class="col-sm-4 col-md-4 ">
+					<div class="card bg-dark h-50">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md bg-dark mr-3">
+
+								<i class="far fa-share-square fa-2x"></i>
+							</span>
+							<div class="float-right">
+								<h5 class="mb-1"><b>ISSUED</b></h5>
+								<small class="text-muted">{{ submission.date }}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{% if submission.comments %}
+				<div class="col-sm-4 col-md-4">
+					<div class="card bg-dark h-50 float-right">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md {% if submission.comments.status == 2 %} bg-danger {% elif submission.comments.status == 1 %} bg-warning {% else %} bg-success {% endif %} mr-3">
+								{{ submission.comments.get_status_display }}
+							</span>
+							<div>
+								<h5 class="mb-1"><b>RETURNED</b></h5>
+								<small class="text-muted">{{ submission.comments.date }}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% else %}
+
+				<div class="col-sm-4 col-md-4">
+					<div class="card bg-dark h-50 float-right">
+						<div class="d-flex align-items-center">
+							<span class="stamp stamp-md bg-light mr-3">
+								!
+							</span>
+							<div>
+								<h5 class="mb-1"><b>NOT RETURNED</b></h5>
+								<small class="text-muted">Awaiting Status</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{% endif %}
+
+			</div>
+
+			{% endfor %}
+
+		</div>
+		{% endif %}
+		{% endfor %}
+
+	</div>
+</div>
+
+
+
+{% for document in documents %}
+
+{% endfor %}
+
+
+
+
+
+
