@@ -1,0 +1,415 @@
+{% load functions %} {% load humanize %} {% load mathfilters %}
+
+
+{% block scripts %}
+<script src="/static/assets/js/setting-demo2.js"></script>
+<script>
+
+//https://stackoverflow.com/questions/65809844/create-charts-with-a-loop-in-django-with-charts-js
+
+    {% for phase in phases %}
+/*
+    $(document).ready(function () {
+	var ctx = document.getElementById('gaProgressChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [{% for item in timesheets %} {% if item.phase.pk == phase.pk %}'{{item.phase.project.number}} - {{item.phase.name}} - {{item.date}}', {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'time score',
+                data: [{% for item in timesheets %}{% if item.phase.pk == phase.pk %} {{item.time_spent}},{% endif %}{% endfor %}],
+        backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',rt
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+  */
+
+
+
+    //GA DRAWINGS CHART
+            $(document).ready(function () {
+                var ctx = document.getElementById('gaProgressChart{{ forloop.counter }}').getContext('2d');
+                var myChart{{ forloop.counter }} = new Chart(ctx, {
+       type: 'pie',
+       data: {
+           labels: ['STATUS A', 'STATUS B', 'STATUS C', 'PENDING', 'TO DO'],
+           datasets: [{
+               label: 'GA Drawings Status Progress',
+                            data: [{{ statuses | ga_status_a:phase.pk }}, {{ statuses | ga_status_b:phase.pk }}, {{ statuses | ga_status_c:phase.pk }}, {{ submissions | ga_issued:phase.pk }}, {{ documents | ga_not_issued:phase.pk }}],
+        backgroundColor: [              
+            
+            'rgba(0, 255, 0, .6)',            
+            'rgba(255, 175, 0, .6)',
+            'rgba(255, 0, 0, .6)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(0, 0, 0, .1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(109, 157, 247, 1)',
+            'rgba(242, 61, 236, 1)',
+            
+
+
+                ],
+                    borderColor: [
+                        'rgba(0, 255, 0, 1)',
+                        'rgba(255, 175, 0, 1)',
+                        'rgba(255, 0, 0, 1)',
+                        '#3ec556',
+                        '#8c8c8c'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+            },
+            legend: {
+                display: true,
+                position: 'right'
+            },
+            title: {
+                display: true,
+                 text: "DEADLINE: {{ phase.date_ga_first_issue_expected }}"
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+
+    //TECH SUBS CHART
+    $(document).ready(function () {
+
+
+	var ctx = document.getElementById('tsProgressChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['STATUS A', 'STATUS B', 'STATUS C', 'PENDING', 'TO DO'],
+            datasets: [{
+                label: 'time score',
+                data: [{{ statuses | ts_status_a:phase.pk }}, {{ statuses | ts_status_b:phase.pk }}, {{ statuses | ts_status_c:phase.pk }}, {{ submissions | ts_issued:phase.pk }}, {{ documents | ts_not_issued:phase.pk }}, ],
+        backgroundColor: [
+            'rgba(0, 255, 0, .6)',
+            'rgba(255, 175, 0, .6)',
+            'rgba(255, 0, 0, .6)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(0, 0, 0, .1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(109, 157, 247, 1)',
+            'rgba(242, 61, 236, 1)',
+
+
+                ],
+                borderColor: [
+                    'rgba(0, 255, 0, 1)',
+                    'rgba(255, 175, 0, 1)',
+                    'rgba(255, 0, 0, 1)',
+                    '#3ec556',
+                    '#8c8c8c'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+            },
+            legend: {
+                display: true,
+                position: 'right'
+            },
+            title: {
+                display: true,
+                 text: "Deadline: {{ phase.ts_first_issue_date_expected }}"
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+
+    //FAB DRAWINGS CHART
+    $(document).ready(function () {
+	var ctx = document.getElementById('fabProgressChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [ 'COMPLETED', 'REMAINING' ],
+            datasets: [{
+                label: 'time score',
+                data: [],
+        backgroundColor: [
+                 '#3ec556',
+                'rgba(0,0,0,0)',
+
+
+                ],
+                borderColor: [
+                    '#3ec556',
+                    '#8c8c8c'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+			},
+            title: {
+                display: true,
+                 text: "Deadline: {{ phase.fabs_issue_date_expected }}"
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+
+
+
+
+    //AB DRAWINGS CHART
+    $(document).ready(function () {
+	var ctx = document.getElementById('abProgressChart{{ forloop.counter }}').getContext('2d');
+    var myChart{{ forloop.counter }} = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [ 'COMPLETED', 'REMAINING' ],
+            datasets: [{
+                label: 'time score',
+                data: [],
+        backgroundColor: [
+                 '#3ec556',
+                'rgba(0,0,0,0)',
+
+
+                ],
+                borderColor: [
+                    '#3ec556',
+                    '#8c8c8c'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+			animation: {
+				animationRotate: true,
+				duration: 1000
+			},
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        beginAtZero: true,   // minimum value will be 0.
+                        // <=> //
+                        min: 0,
+                        max: 5,
+                        stepSize: 1 // 1 - 2 - 3 ...
+                    }
+                }]
+            }
+        }
+    });
+});
+
+
+
+    {% endfor %}
+</script>
+{% endblock scripts %}
+
+
+
+<h2 class="card-title text-center">{{ phase.name }} - {{ phase.description }} (Updated on {{ phase.updated_on }})</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-stats card-success card-round">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="icon-big text-center">
+                                    <i class="flaticon-calendar"></i>
+                                </div>
+                            </div>
+                            <div class="col-7 col-stats">
+                                <div class="numbers">
+                                    <p class="card-category">START DATE</p>
+                                    <h4 class="card-title font-weight-bold">{{ phase.design_start }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-stats card-success card-round">
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="icon-big text-center">
+                                    <i class="flaticon-clock"></i>
+                                </div>
+                            </div>
+                            <div class="col-7 col-stats">
+                                <div class="numbers">
+                                    <p class="card-category">END DATE</p>
+                                    <h4 class="card-title font-weight-bold">
+                                        {{ phase.design_end }}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title text-center"><h1 style="display: inline"> {{ documents | ga_qty:phase.pk }}  &nbsp;&nbsp;</h1><h4 style="display: inline">GA Drawings</h4>              
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="gaProgressChart{{ forloop.counter }}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                
+                <div class="card-title text-center"><h1 style="display: inline">{{ documents | ts_qty:phase.pk }}&nbsp;&nbsp;</h1><h4 style="display: inline">Tech Subs</h4></div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="tsProgressChart{{ forloop.counter }}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title text-center"><h1 style="display: inline">{{phase.fab_drawings}}&nbsp;&nbsp;</h1><h4 style="display: inline">Fab Drawings</h4></div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="fabProgressChart{{ forloop.counter }}"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title text-center"><h1 style="display: inline">{{phase.ab_drawings}}&nbsp;&nbsp;</h1><h4 style="display: inline">As Builts</h4></div>
+            </div>
+
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="abProgressChart{{ forloop.counter }}"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+

@@ -1,0 +1,59 @@
+{% load humanize %}  {% load functions %}
+<div class="col-md-12">
+	<div class="card">
+
+		<div class="card-body">
+			<div class="card-header">
+				<div class="d-flex align-items-center">
+					<h4 class="card-title">Live Projects</h4>
+
+					<button onclick="window.location.href='/emp';" class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">						
+						<i class="fa fa-plus"></i>
+						Add Project
+					</button>
+
+				</div>
+			</div>
+			<table id="multi-filter-select" class="display table table-striped table-hover mt-3">
+				<thead>
+					<tr>
+						<th scope="col">PROJECT</th>
+						<th scope="col">VALUE</th>
+						<th scope="col">FIRE</th>
+						<th scope="col">PROJECT DESIGNER</th>
+						<th scope="col">PROJECT MANAGER</th>
+						<th scope="col">DESIGN PRELIMS </th>
+
+
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for project in projects %}
+					{% if project.status == 1 %}
+
+					<tr>
+						<td><a href="{% url 'project_detail' project.id %}">{{ project.number }} - {{ project.name }}</a></td>
+						<td>&#163;{{ project.value|intcomma }}</td>
+						<td>
+							{% for phase in project.phase_set.all %}
+
+							{{ phase.is_fire | yesno:"Yes,No" }}
+							{% endfor %}
+						</td>
+						<td>{{ project.designer_list }}</td>
+						<td>{{ project.pm_list }}</td>
+						<td>&#163;{{ project.design_value_prelims|intcomma }}</td>
+
+					</tr>
+					{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+
+									

@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %} {% load humanize %} {% load functions %} {% load mathfilters %}
+
+{% block title %} {{ project.number }} - {{ project.name }} {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+        <h4 class="page-title">{{ project.number }} - {{ project.name }}</h4>
+        <div class="page-category">Project Value: &#163;{{ project.value | intcomma }} | Project Designer: {{ project.designer_list }}  | Project Manager: {{ project.pm_list }} | Open in  <a href="https://www.chartjs.org/" target="_blank">OSCA</a></div>
+
+
+
+
+
+
+        {% block cost %} {% include 'widgets/detail/wi-det-costmng.html' %} {% endblock cost %}
+        <div class="card-header">
+            <div class="card-title text-center">DESIGN PROGRESS</div>
+        </div>
+        {% for phase in phases %}
+        {% block progress %} {% include 'widgets/detail/wi-det-progress.html' %} {% endblock progress %}
+        {% block garecord %} {% include 'widgets/detail/wi-list-garecord.html' %} {% endblock garecord %}
+        {% block timeline %} {% include 'widgets/detail/wi-det-timeline.html' %} {% endblock timeline %}
+        {% endfor %}
+
+
+    </div>
+</div>
+
+{% endblock content %}
+
+
+

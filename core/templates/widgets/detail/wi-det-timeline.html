@@ -1,0 +1,118 @@
+﻿			<!-- TimeLine -->
+<!--
+            status = "NOT ISSUED NOT LATE"
+            status = "ISSUED NOT LATE"
+            status = "NOT ISSUED LATE"
+            status = "ISSUED LATE"
+	-->
+
+
+
+			<h4 class="page-title">Timeline</h4>
+			<div class="row">
+				<div class="col-md-12">
+					
+					<ul class="timeline">
+						<li>
+							<div class="timeline-badge info"><i class="flaticon-next"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">GA drawings and details: <span class="badge badge-info larger-badge">FIRST ISSUE BY {{ project.company }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.date_ga_first_issue_expected }}</pstyle="display:inline">
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.date_ga_first_issue_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ga_first_issue_message }}</p>
+								</div>
+							</div>
+						</li>
+						
+						<li class="timeline-inverted mt-100">
+							<div class="timeline-badge success"><i class="flaticon-back"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">GA drawings and details: <span class="badge badge-success larger-badge">COMMENTS BY {{ project.contractor }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.date_ga_first_status_expected }}</p>
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.date_ga_first_status_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ga_first_status_message }}</p>
+								</div>
+							</div>
+						</li>
+
+						<li>
+							<div class="timeline-badge info"><i class="flaticon-next"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">GA drawings and details: <span class="badge badge-info larger-badge">AMENDMENTS BY {{ project.company }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.date_ga_amendments_expected }}</p>
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.date_ga_amendments_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ga_amendments_message }}</p>
+								</div>
+							</div>
+						</li>
+						<li class="timeline-inverted">
+							<div class="timeline-badge success"><i class="flaticon-back"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">GA drawings and details: <span class="badge badge-success larger-badge">FINAL APPROVAL BY {{ project.contractor }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.date_ga_final_approval_expected }}</p>
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.date_ga_final_approval_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ga_final_approval_message }}</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="timeline-badge info"><i class="flaticon-next"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">TECH SUBS: <span class="badge badge-info larger-badge">ISSUE BY {{ project.company }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.ts_first_issue_date_expected }}</p>
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.ts_first_issue_date_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ga_first_issue_message }}</p>
+								</div>
+							</div>
+						</li>
+						<li class="timeline-inverted">
+							<div class="timeline-badge success"><i class="flaticon-back"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">TECH SUBS: <span class="badge badge-success larger-badge">APPROVAL BY {{ project.contractor }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.date_ga_first_issue_expected }}</p>
+									<p style="display:inline; margin-left: 100px"><small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.date_ga_first_issue_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.ts_first_issue_message }}</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="timeline-badge info"><i class="flaticon-next"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h4 class="card-title">FAB drawings: <span class="badge badge-info larger-badge">ISSUE BY {{ project.company }}</span></h4>
+									<hr>
+									<p style="display:inline"><small class="text-muted"><i class="flaticon-calendar"></i> Expected: </small> {{ phase.fabs_issue_date_expected }}</p>
+									<p style="display:inline; margin-left: 100px">s<small class="text-muted"><i class="flaticon-calendar"></i> Actual: </small> {{ phase.fabs_issue_date_actual }}</p>
+								</div>
+								<div class="timeline-body">
+									<p><i class="flaticon-pencil"></i> {{ phase.fabs_issue_message }}</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>

@@ -1,0 +1,93 @@
+{% load humanize %} {% load functions %} {% load mathfilters %}
+<div class="row">
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-primary card-round">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-5">
+						<div class="icon-big text-center">
+							<i class="flaticon-tea-cup"></i>
+						</div>
+					</div>
+					<div class="col-7 col-stats">
+						<div class="numbers">
+							<p class="card-category">Live Projects</p>
+
+							<h4 class="card-title font-weight-bold">{{ projects_stats.total_projects }}</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-primary card-round">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-5">
+						<div class="icon-big text-center">
+							<i class="flaticon-price-tag"></i>
+						</div>
+					</div>
+					<div class="col-7 col-stats">
+						<div class="numbers">
+							<p class="card-category">Total Value of Live Projects</p>
+							<h4 class="card-title font-weight-bold">&#163;{{ projects_stats.total_value | intcomma}}</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-primary card-round">
+			<div class="card-body ">
+				<div class="row">
+					<div class="col-5">
+						<div class="icon-big text-center">
+							<i class="flaticon-time"></i>
+						</div>
+					</div>
+					<div class="col-7 col-stats">
+						<div class="numbers">
+							<p class="card-category">Total Design Prelims</p>
+							<h4 class="card-title font-weight-bold">
+								&#163;{{ projects_stats.total_design_value | intcomma}} 
+
+
+							</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div class="card card-stats card-primary card-round">
+			<div class="card-body ">
+				<div class="row">
+					<div class="col-5">
+						<div class="icon-big text-center">
+							<i class="flaticon-clock"></i>
+						</div>
+					</div>
+					<div class="col-7 col-stats">
+						<div class="numbers">
+							<p class="card-category">Next Deadline</p>
+							<h4 class="card-title font-weight-bold">
+								{% for portfolio in portfolio_time %}
+								{{ phase_stats.min_deadline |date:'Y-m-d H:i'}}
+								{% endfor %}
+							</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<script>
+	console.log('DATE IS: '+{{ phase_stats.min_deadline | safe}})
+	console.log('VALUE IS: '+{{ projects_stats.total_design_value | safe}})
+</script>
