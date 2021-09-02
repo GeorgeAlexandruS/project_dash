@@ -157,7 +157,7 @@ def emp(request):
         if form.is_valid():  
             try:  
                 form.save()  
-                return redirect('/show')  
+                return redirect('/')  
             except:  
                 pass  
     else:  
@@ -168,14 +168,14 @@ def show(request):
     return render(request,"project-crud/show-project.html",{'projects':projects})  
 def edit(request, id):  
     project = Project.objects.get(id=id)  
-    return render(request,'edit.html', {'project':project})  
+    return render(request,'project-crud/edit-project.html', {'project':project})  
 def update(request, id):  
     project = Project.objects.get(id=id)  
     form = ProjectForm(request.POST, instance = project)  
     if form.is_valid():  
         form.save()  
         return redirect("/show")  
-    return render(request, 'edit.html', {'project':project})  
+    return render(request, 'project-crud/edit-project.html', {'project':project})  
 def destroy(request, id):  
     project = Project.objects.get(id=id)  
     project.delete()  

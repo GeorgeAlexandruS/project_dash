@@ -10,7 +10,9 @@
 <div class="content">
     <div class="page-inner">
         <h4 class="page-title">{{ project.number }} - {{ project.name }}</h4>
-        <div class="page-category">Project Value: &#163;{{ project.value | intcomma }} | Project Designer: {{ project.designer_list }}  | Project Manager: {{ project.pm_list }} | Open in  <a href="https://www.chartjs.org/" target="_blank">OSCA</a></div>
+        <div class="page-category">
+            Project Value: &#163;{{ project.value | intcomma }} | Project Designer: {% for phase in project.phase_set.all %}{{ phase.designer }} ; {% endfor %} | Project Manager: {{ project.pm }} | Open in  <a href="https://www.chartjs.org/" target="_blank">OSCA</a>
+        </div>
 
 
 

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'projects',
     'profiles',
     'workflow',
-    'timesheets'
+    'timesheets',
+    'companies'
     ]
 
 MIDDLEWARE = [
