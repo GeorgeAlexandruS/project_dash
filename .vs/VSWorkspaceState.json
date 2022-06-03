@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\core",
+    "\\core\\templates",
+    "\\core\\templates\\project-crud",
+    "\\core\\templates\\widgets",
+    "\\core\\templates\\widgets\\list",
+    "\\projects",
+    "\\projects\\forms"
+  ],
+  "SelectedNode": "\\projects\\forms\\forms.py",
+  "PreviewInSolutionExplorer": false
+}

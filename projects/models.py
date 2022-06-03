@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from companies.models import Company
 
 from django.core.validators import FileExtensionValidator, MaxValueValidator, MinValueValidator
 
@@ -12,12 +13,12 @@ class Project(models.Model):
     number = models.CharField(max_length=5, unique=True)
     name = models.CharField(max_length=200, null=True)
     slug = models.SlugField(max_length=200, unique=True)
-    company = models.CharField(max_length=200, null=True)
-    contractor = models.CharField(max_length=200, null=True)
+    division = models.ForeignKey(Company, on_delete=models.PROTECT, default=2, related_name='division')
+    contractor = models.ForeignKey(Company, on_delete=models.PROTECT, default=2, related_name='contractor') 
     postcode = models.CharField(max_length=8, null=True)
     value = models.DecimalField(max_digits=7, decimal_places=0)
-    designer = models.ManyToManyField(User, related_name='pd')
-    pm = models.ManyToManyField(User, related_name='pm')    
+    bim = models.BooleanField(default=False)
+    pm = models.ForeignKey(User, on_delete=models.PROTECT, default=1, related_name='pm')    
     website = models.URLField(blank=True)
     avatar = models.ImageField(upload_to='uploads/img', validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])], blank=True)
     updated = models.DateTimeField(auto_now=True)
@@ -50,6 +51,7 @@ class Phase(models.Model):
     description = models.CharField(max_length=200, null=True)
     is_fire = models.BooleanField(default=False)
     updated_on = models.DateTimeField(auto_now=True)
+    designer = models.ForeignKey(User, on_delete=models.PROTECT, default=1, related_name='pd')
 
     #design dates
     design_start = models.DateField(editable= True, default=datetime.today, blank=True)

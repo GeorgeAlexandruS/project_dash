@@ -13,7 +13,7 @@ DOC_TYPE = (
 
 class Document(models.Model):
     phase = models.ForeignKey(Phase, on_delete=models.CASCADE, default=None, related_name="document_list")
-    number = models.CharField(max_length=20, unique=True)
+    number = models.CharField(max_length=30, unique=True)
     name = models.CharField(max_length=200, null=True)
     type = models.IntegerField(choices=DOC_TYPE, default=4)
     designer = models.ForeignKey(User, on_delete=models.PROTECT)    

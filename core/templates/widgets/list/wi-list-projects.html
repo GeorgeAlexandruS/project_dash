@@ -20,6 +20,7 @@
 						<th scope="col">PROJECT</th>
 						<th scope="col">VALUE</th>
 						<th scope="col">FIRE</th>
+						<th scope="col">BIM</th>
 						<th scope="col">PROJECT DESIGNER</th>
 						<th scope="col">PROJECT MANAGER</th>
 						<th scope="col">DESIGN PRELIMS </th>
@@ -41,8 +42,20 @@
 							{{ phase.is_fire | yesno:"Yes,No" }}
 							{% endfor %}
 						</td>
-						<td>{{ project.designer_list }}</td>
-						<td>{{ project.pm_list }}</td>
+						<td>
+							
+
+							{{ project.bim | yesno:"Yes,No" }}
+							
+						</td>
+						<td>
+							{% for phase in project.phase_set.all %}
+
+							{{ phase.designer }} |
+							{% endfor %}
+
+						</td>
+						<td>{{ project.pm }}</td>
 						<td>&#163;{{ project.design_value_prelims|intcomma }}</td>
 
 					</tr>

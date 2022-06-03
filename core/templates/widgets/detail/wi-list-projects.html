@@ -34,7 +34,14 @@
 							{{ phase.is_fire | yesno:"Yes,No" }}
 							{% endfor %}
 						</td>
-						<td>{{ project.designer_list }}</td>
+						<td>
+							{% for phase in project.phase_set.all %}
+
+							{{ phase.designer }}
+							{% endfor %}
+
+						</td>
+						
 						<td>{{ project.pm_list }}</td>
 						<td>&#163;{{ project.design_value_prelims|intcomma }}</td>
 
